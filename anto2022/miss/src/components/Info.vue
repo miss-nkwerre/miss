@@ -64,6 +64,12 @@
   font-size: 17px;
 }
 
+.header-top-left > li> a:hover{
+  border-radius:10px;
+  background-color: rgb(2, 48, 85);
+  padding:3px;
+}
+
 .fa{
   margin:5px;
   color:rgb(243, 10, 146);
@@ -86,7 +92,7 @@
   
 }
 .header-top-right> li> a{
-  color:rgb(168, 168, 168);
+  color:rgb(211, 208, 208);
   font-weight: bold;
   font-size: 17px;
   border-left: 5px dotted #F2AA4C;
@@ -95,8 +101,10 @@
 .header-top-right> li> a:hover{
   border-left: none;
   border-radius:10px;
-  background-color: aliceblue;
+  background-color: rgb(2, 48, 85);
 }
+
+
 
 @media (max-width: 1120px){
   .header-top {
@@ -115,6 +123,12 @@
 .header-top-left > li> a{
   color:rgb(248, 211, 189);
   font-size: 15px;
+}
+
+.header-top-left > li> a:hover{
+  border-radius:10px;
+  background-color: rgb(2, 48, 85);
+  padding:3px;
 }
 
 .header-top-right> li> a{
