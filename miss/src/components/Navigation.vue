@@ -1,47 +1,158 @@
 <template>
+  <div class="container">
     <div class="header-main">
-        <div >
-          <a class="logo-container" href="#">
-              <img class="school-logo" alt="school logo" :src="Img2" />
-              <span class="logo-text">ST. MONICA NKWERRE</span>
-          </a>
-        </div>
-        <div  @click.prevent="invert()"  class="menu-bar" >
-          <font-awesome-icon :icon="['fas', icon]"/>
-          <!-- <font-awesome-icon :icon="['fas', 'bars']"  /> -->
-        </div>
+      <!-- <p> {{ width }} </p> -->
+      <div class="left-menu">
+          <div>
+            <router-link to="/">
+                <a class="logo-container" href="#">
+                    <img class="school-logo" alt="school logo" :src="Img2" />
+                    <span class="logo-text">ST. MONICA NKWERRE</span>
+                </a>
+            </router-link>
+          </div>
+          <div   class="menu-icon" >
+            <font-awesome-icon @click="handleMenuClick()"  :icon="['fas', icon]"/>
+          </div>
       </div>
+      <div class="right-menu">
+        <ul class="menu-collections">
+            <li class="menu"> <router-link to="/admissions">Admissions</router-link></li>
+            <li class="menu-with-submenu"  @mouseleave="swapAboutChevronDown()" @mouseover="swapAboutChevronUp()">About <font-awesome-icon :icon="['fas', chevronForAbout]"/>
+                <ul class="submenu">
+                  <li class="sub-menu-items"><router-link to="/welcome_message">Welcome Address</router-link></li>
+                  <li class="sub-menu-items"><router-link to="/history">School History</router-link></li>
+                  <li class="sub-menu-items"><router-link to="/staff">Staff Members</router-link></li>
+                </ul>
+            </li>
+            <li class="menu"><router-link to="/contact">Contact</router-link></li>
+            <li class="menu-with-submenu"  @mouseleave="swapPortalChevronDown()" @mouseover="swapPortalChevronUp()" >Portal <font-awesome-icon :icon="['fas', chevronForPortal]"/>
+                <ul class="submenu">
+                  <li class="sub-menu-items"><router-link to="/results">Check Result</router-link></li>
+                  <li class="sub-menu-items"><router-link to="/admission_status">Check Admission Status</router-link></li>
+                  <li class="sub-menu-items"><router-link to="/login">Login</router-link></li>
+                </ul>
+            </li>
+            <li class="menu"><router-link to="/gallery">Gallery</router-link></li>
+        </ul>
+      </div>
+      </div>
+      <div v-show="factor" class="right-menu-mobile">
+        <ul class="menu-collections-mobile">
+            <li class="menu-mobile"><router-link to="/admissions">Admissions</router-link></li>
+            <li class="menu-mobile"><router-link to="/contact">Contact</router-link></li>
+            <li class="menu-mobile"><router-link to="/gallery">Gallery</router-link></li>
+            <li class="menu-with-submenu-mobile" >About 
+                <ul class="submenu-mobile">
+                  <li class="sub-menu-items-mobile"><router-link to="/welcome_message">Welcome Address</router-link></li>
+                  <li class="sub-menu-items-mobile"><router-link to="/history">School History</router-link></li>
+                  <li class="sub-menu-items-mobile"><router-link to="/staff">Staff Members</router-link></li>
+                </ul>
+            </li>
+            
+            <li class="menu-with-submenu-mobile">Portal 
+                <ul class="submenu-mobile">
+                  <li class="sub-menu-items-mobile"><router-link to="/results">Check Result</router-link></li>
+                  <li class="sub-menu-items-mobile"><router-link to="/admission_status">Check Admission Status</router-link></li>
+                  <li class="sub-menu-items-mobile"><router-link to="/login">Login</router-link></li>
+                </ul>
+            </li>
+           
+        </ul>
+      </div>
+  </div>
 </template>
 
 <script setup>
-import { ref} from 'vue'
+import { ref, onMounted, onUnmounted} from 'vue'
 import Img2 from '../assets/images/miss-logo.png';
 import { storeToRefs } from 'pinia'
 import { useNavigationStore } from '@/stores/navigation'
 const store =useNavigationStore()
-const { iconShowing,icon} = storeToRefs(store)
+const {icon} = storeToRefs(store)
 const {invert} = store
+
+const chevronForAbout=ref('chevron-down')
+const chevronForPortal=ref('chevron-down')
+
+const swapAboutChevronUp=()=>{
+  chevronForAbout.value='chevron-up'
+}
+
+const swapAboutChevronDown=()=>{
+  chevronForAbout.value='chevron-down'
+}
+
+const swapPortalChevronUp=()=>{
+  chevronForPortal.value='chevron-up'
+}
+
+const swapPortalChevronDown=()=>{
+  chevronForPortal.value='chevron-down'
+}
+
+
+const width =ref()
+
+const resizeHandler =() => {
+ width.value = window.innerWidth;
+ if (width.value >= 1040){
+    if (factor.value === true){
+      factor.value = false
+      invert()
+    }
+ }
+}
+
+onMounted(() => {
+    window.addEventListener('resize',resizeHandler)
+})
+const factor=ref(false)
+
+const handleMenuClick=()=>{
+    factor.value = !factor.value
+    invert()
+}
 
 </script>
 
 <style lang="scss" scoped>
+.container{
+  display:flex;
+  flex-direction: column;
+}
 .header-main {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 5px;
+    flex-basis:1;
 }
 
+.left-menu{
+  display:flex;
+  align-self:flex-start;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap:10px;
+  flex-basis:40%;
+}
 .logo-container{
   display:flex;
   align-items: center;
   gap:3px;
+  padding:3px;
+
+  &:hover{
+    background-color: hsla(165, 98%, 22%, 0.9);
+    padding:3px;
+    border-radius:15px;
+  }
 }
 
 .logo-text{
   font-weight: bold;
   color:#000;
-  font-size:18px;
+  font-size:20px;
 }
 
 .school-logo{
@@ -53,214 +164,248 @@ const {invert} = store
   padding:5px;
 }
 
-.menu-bar{
-  color:black;
-  font-size:40px;
-  margin-right:30px;
-  border-radius:30px;
-  padding:3px;
-  border: 5px solid white;
+.menu-icon{
+  display:none;
+}
+
+.right-menu{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  align-self:flex-end;
+  flex-basis: 60%;
+  padding:2px;
+
+ul{
+  list-style-type:none;
+  
+}
+
 }
 
 
-.header-main .nav-menu {
-    // background-color: rgb(0, 255, 136);
-    padding: 0 10px;
-}
-.header-main .menu > .menu-item {
-    display: inline-block;
-    margin-left: 30px;
-    // position: relative;
-}
-.header-main .menu > .menu-item > a {
-    display: block;
-    padding: 10px 0;
-    font-size: 16px;
-    text-transform: capitalize;
-    font-weight: 600;
-    color: white;
-    transition: all 0.3s ease;
-}
-.header-main .menu > .menu-item > a .plus {
-    display: inline-block;
-    height: 15px;
-    width: 15px;
-    // background-color: red;
-    position: relative;
-}
-.header-main .menu > .menu-item > a .plus::before,
-.header-main .menu > .menu-item > a .plus::after
-{
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    background-color: black;
-    height: 2px;
-    width: 50%;
-    transform: translate(-50%, -50%);
-    transition: all 0.3s ease;
-}
-// .header-main .menu > .menu-item:hover > a .plus::before,
-// .header-main .menu > .menu-item:hover > a .plus::after{
 
-// }
-.header-main .menu > .menu-item > a .plus::after {
-    transform: translate(-50%, -50%) rotate(-90deg);
+.menu{
+  a{
+  font-weight: bold;
+  text-align: center;
+  font-size:20px;
+  padding:5px;
+  color:#000;
+
+  &.router-link-active{
+    color:rgb(255, 104, 4);
+    font-weight: bold;
+    font-size:20px;
+    &:hover{
+      color:rgb(255, 104, 4);
+    }
+  }
+
+  &:hover{
+    background-color: #006970;
+    padding:5px;
+    color:#fff;
+    border-radius:40px;
+  }
+  }
 }
-.header-main .menu > .menu-item > .sub-menu {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    width: 220px;
-    position: absolute;
-    left: 0;
-    top: 100%;
-    background-color: white;
-    padding: 10px 0;
-    border-top: 3px solid red;
-    transform: translateY(10px);
-    transition: all 0.3s ease;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
+
+.sub-menu-items{
+  font-size:12px;
+  font-weight: bold;
+  color:#000;
+  cursor:pointer;
+  text-align: center;
+
+  &:hover{
+   text-decoration: underline rgb(2, 99, 99) 2px;
+  }
+}
+.right-menu>ul>li{
+  float:left;
+  margin:10px;
+}
+
+
+.menu-with-submenu{
+  position:relative;
+  font-weight: bold;
+  text-align: center;
+  font-size:20px;
+  color:#000;
+}
+
+.menu-with-submenu:hover {
+  color:rgb(255, 185, 157);
+.submenu{
+  position:absolute;
+  left:-50px;
+  top:33px;
+  display:flex;
+  flex-direction: column;
+  align-items:flex-start;
+  padding:10px;
+  background-color: white;
+  border-top:7px solid rgb(255, 185, 157);
+  z-index:5;
+  width:190px;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  a{
+    font-weight: bold;
+    text-align: center;
+    font-size:14px;
+    padding:3px;
+    color:#000;
+    margin-top:10px;
+
+    &.router-link-active{
+      color:rgb(255, 104, 4);
+      font-weight: bold;
+      font-size:14px;
+      &:hover{
+        color:rgb(255, 104, 4);
+      }
+    }
+
+    &:hover{
+      background-color: #006970;
+      color:white;
+      border-radius:40px;
+    }
+  }
+}
 
 }
-.header-main .menu > .menu-item > .sub-menu > .menu-item > a {
-    display: block;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #000;
-    transition: all 0.3s ease;
-    text-transform: capitalize;
+
+
+.submenu{
+ display:none
 }
-.header-main .open-nav-menu {
-    height: 34px;
-    width: 40px;
-    margin-right: 15px;
-    // display: flex;
-    display: none;
-    align-items: center;
+
+.menu-collections{
+  display: inline-block;
+}
+
+.right-menu-mobile{
+  display:inline-flex;
+  flex-direction: column;
+  background-color:#000;
+  flex-basis:100%;
+  margin:0;
+  padding:0;
+  z-index:50;
+  padding-bottom:10px;
+  padding-top:10px;
+  overflow: hidden;
+
+  ul{
+    list-style-type: none;
+  }
+
+
+  .menu-collections-mobile{
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
     justify-content: center;
-    cursor: pointer;
+    
+  
+    
+    a {
+      font-weight: bold;
+      text-align: center;
+      font-size:15px;
+      color:#c3b3fd;
+      padding:5px;
+     
+      &:hover{
+        background-color: #006970;
+        padding:5px;
+        color:#fff;
+        border-radius:40px;
+      }
+      &.router-link-active{
+        color:rgb(255, 104, 4);
+        font-weight: bold;
+        font-size:15px;
+        &:hover{
+          color:rgb(255, 104, 4);
+        }
+      } 
+    }
+  }
+  .menu-with-submenu-mobile{
+    font-weight: bold;
+    font-size:20px;
+    color:#d9d6ff;
+    padding-left:30px;
+    
+  }
+  .sub-menu-items-mobile{
+    font-weight: bold;
+    font-size:20px;
+    color:#fdfcfc;
+  }
+
 }
-.header-main .open-nav-menu span {
+
+
+
+
+@media (max-width : 400px) {
+  .logo-container{
+    .logo-text{
+      font-size: 16px;
+    }
+  }
+}
+
+
+@media (max-width: 1040px) {
+  .logo-container{
+    margin-left:2px;
+  }
+  .menu-icon{
     display: block;
-    height: 3px;
-    width: 24px;
-    background-color: #000;
-    position: relative;
-}
-.header-main .open-nav-menu span::before,
-.header-main .open-nav-menu span::after{
-    content: '';
-    position: absolute;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #000;   
-}
-.header-main .open-nav-menu span::before{
-    top: -7px;
-}
-.header-main .open-nav-menu span::after{
-    top: 7px;
-}
-.header-main .close-nav-menu {
-    width: 40px;
-    height: 40px;
-    background-color: #fff;
-    margin: 0 0 15px 15px;
-    cursor: pointer;
-    // display: flex;
-    display: none;
+    color:#000;
+    font-size:20px;
+    border-radius:30px;
+    padding:8px;
+    border: 4px solid rgb(1, 54, 63);
+    transition:0.3s ease all;
+    &:hover{
+      transition: 0.50s;
+      transform: rotate(180deg);
+      cursor:pointer;
+      border-right: 4px solid rgb(2, 195, 230);
+      border-bottom: 4px solid rgb(2, 195, 230);
+      //border: 4px solid rgb(2, 195, 230);
+    }
+  }
+  .header-main {
+    display: flex;
+    flex-direction:column;
+    align-items: flex-start;
     justify-content: center;
-    align-items: center;
+    padding:0;
+    margin:0;
+}
+.left-menu{
+  display:flex;
+  align-items: center;
+  gap:5px;
+  width:100%;
+  padding-right:20px;
+  padding-bottom: 10px;
 
 }
-.header-main .close-nav-menu i{
-    color: red;
-    
-}
-@media (min-width: 992px) {
-.header-main .menu > .menu-item-has-children:hover > .sub-menu {
-    transform: translateY(0);
-    opacity: 1;
-    visibility: visible;
-}
-.header-main .menu > .menu-item:hover > a .plus::after {
-    transform: translate(-50%, -50%) rotate(0deg);
-}
-}
-@media (max-width: 1023px) {
-    .header-main .nav-menu {
-        // display: none;
-        position: fixed;
-        visibility: hidden;
-        right: -280;
-        width: 280px;
-        height: 100%;
-        top: 0;
-        overflow-y: auto;
-        background-color: #222;
-        z-index: 1000;
-        padding: 15px 0;
-        transition: all 0.5s ease;
 
-    }
-    // open class for the siderbarrrrrrrrrrrrrrrrrrrrrrrrr
-    .header-main .nav-menu .open{
-        visibility: visible;
-        right: 0px;
-    }
-    .header-main .menu .menu-item{
-        display: block;
-        margin: 0;
-    }
-    .header-main .menu > .menu-item > a{
-        color: white;
-        padding: 12px 15px;
-        border-bottom: 1px solid #333;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .header-main .menu > .menu-item:first-child > a {
-        border-top: 1px solid #333 ;
-    }
-    .header-main .menu > .menu-item >  .sub-menu {
-        width: 100%;
-        position: relative;
-        opacity: 1;
-        visibility: visible;
-        border: none;
-        background-color: transparent;
-        box-shadow: none;
-        transform: translateY(0px);
-        padding: 0px;
-        left: auto;
-        top: auto;  
-        max-height: 0;
-        overflow: hidden;     
-    }
-    .header-main .menu > .menu-item > .sub-menu > .menu-item > a {
-        padding: 12px 45px;
-        color: #fff;
-        border-bottom: 1px solid #333;
-    }
-    .header-main .menu > .menu-item-has-children:hover > .sub-menu {
-        transform: translateY(0);
-        // opacity: 1;
-        // visibility: visible;
-        max-height: 220px
-    }
-    .header-main .menu > .menu-item:hover > a .plus::after {
-        transform: translate(-50%, -50%) rotate(0deg);
-    }
-    
-    .header-main .close-nav-menu, 
-    .header-main .open-nav-menu{
-        display: flex;
-    }
-    
+
+.right-menu{
+  display:none;
 }
+
+  }
+    
 </style>

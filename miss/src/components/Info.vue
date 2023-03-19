@@ -3,26 +3,27 @@
         <div >
           <ul class="header-top-left">
             <li>
-                <i class="fa fa-phone"></i>+234902-907-3463
+              <font-awesome-icon :icon="['fas', 'phone']"/>  +234-902-907-3463
             </li>
             <li>
-              <a href = "mailto: sr.mmasichi@gmail.com"><i class="fa fa-envelope-o"></i>sr.mmasichi@gmail.com
+              <a href = "mailto: sr.mmasichi@gmail.com"><font-awesome-icon :icon="['fas', 'envelope']"/>  sr.mmasichi@gmail.com
               </a>
             </li>
             <li>
-              <i class="fa fa-clock-o"></i>MON-FRI (8:00am to 6:00pm)
+             <font-awesome-icon :icon="['fa', 'clock']"/>  MON-FRI  ( 8:00am to 6:00pm )
             </li>
           </ul>
         </div>
         <div >
           <ul class="header-top-right">
-              <li>
-                <a href="#" class="text-white">E-learn</a>
+              <li class="text-white">
+                <router-link to="/e-learn">E-learn</router-link>
               </li>
-              <li>
-                <a href="#" class="text-white">Alumni</a>
+              <li class="text-white">
+                <router-link to="/alumni">Alumni</router-link>
               </li>
-              <li><a href="#" class="text-white">Portal</a>
+              <li class="text-white">
+                <router-link to="/login">Login</router-link>
               </li>
           </ul>
       </div>
@@ -62,12 +63,13 @@
 .header-top-left > li> a{
   color:rgb(248, 211, 189);
   font-size: 17px;
+  padding:5px;
 }
 
 .header-top-left > li> a:hover{
   border-radius:10px;
   background-color: rgb(2, 48, 85);
-  padding:3px;
+  padding:5px;
 }
 
 .fa{
@@ -92,18 +94,23 @@
   
 }
 .header-top-right> li> a{
-  color:rgb(211, 208, 208);
+  color: rgb(169, 215, 252);
   font-weight: bold;
   font-size: 17px;
   border-left: 5px dotted #F2AA4C;
   padding:5px;
+  &.router-link-active{
+    color:rgb(255, 104, 4);
+    font-weight: bold;
+    font-size:17px;
+  }
 }
 .header-top-right> li> a:hover{
   border-left: none;
   border-radius:10px;
-  background-color: rgb(2, 48, 85);
+  background-color: rgb(249, 255, 255);
+  padding:5px;
 }
-
 
 
 @media (max-width: 1120px){
@@ -137,6 +144,10 @@
   border-left:none;
   padding:4px;
   border-radius:10px;
+
+  &:hover{
+    padding:4px;
+  }
 }
 
 }

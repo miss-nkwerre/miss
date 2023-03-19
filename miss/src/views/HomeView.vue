@@ -3,12 +3,13 @@ import Carousel from '../components/Carousel.vue'
 </script>
 
 <template>
-    <Carousel />
+  <div class="homecontainer">
+  home view 
+  </div>
+    <!-- <Carousel /> -->
   
 </template>
 
 <style lang="scss">
-  main {
-    grid-area: main;
-  }
+
 </style>
