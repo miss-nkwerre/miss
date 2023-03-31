@@ -120,6 +120,7 @@ const handleMenuClick=()=>{
 .container{
   display:flex;
   flex-direction: column;
+  
 }
 .header-main {
     display: flex;
@@ -234,6 +235,7 @@ ul{
   text-align: center;
   font-size:20px;
   color:#000;
+  z-index:100 !important;
 }
 
 .menu-with-submenu:hover {
@@ -246,9 +248,9 @@ ul{
   flex-direction: column;
   align-items:flex-start;
   padding:10px;
+  z-index:120 !important;
   background-color: white;
   border-top:7px solid rgb(255, 185, 157);
-  z-index:5;
   width:190px;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
   a{
@@ -280,7 +282,7 @@ ul{
 
 
 .submenu{
- display:none
+ display:none;
 }
 
 .menu-collections{
